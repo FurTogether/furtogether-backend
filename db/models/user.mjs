@@ -29,6 +29,6 @@ export default function initUserModel(sequelize, DataTypes) {
         type: DataTypes.STRING,
       },
     },
-    { underscored: true, timestamp: true }
+    { underscored: true, timestamp: true },
   );
 }
