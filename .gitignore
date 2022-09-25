@@ -19,7 +19,6 @@
 .env.production.local
 .env
 
-sequelize.config.cjs
 package.json
 package-lock.json
 README.md
