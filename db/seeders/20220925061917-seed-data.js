@@ -16,7 +16,7 @@ module.exports = {
       const locationId = uuidv4();
       const username = faker.internet.userName();
 
-      // Create 1 same guy with 2 dogs
+      // Create 1 same guy with 2 dog
       if (i === 3) {
         dogList.push({
           id: uuidv4(),
