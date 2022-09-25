@@ -2,10 +2,10 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    username: process.env.DATABASE_USERNAME,
-    password: null,
-    database: 'furtogether-development',
-    host: '127.0.0.1',
+    username: process.env.POSTGRES_USERNAME,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DATABASE,
+    host: process.env.POSTGRES_HOST,
     dialect: 'postgres',
   },
   production: {
