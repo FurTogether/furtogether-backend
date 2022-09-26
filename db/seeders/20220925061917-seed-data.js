@@ -44,6 +44,7 @@ module.exports = {
         gender: faker.random.arrayElement(['M', 'F']),
         created_at: new Date(),
         updated_at: new Date(),
+        email: faker.internet.email(),
       });
       dogList.push({
         id: dogId,
