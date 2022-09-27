@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 // npm install uuid
 const { v4: uuidv4 } = require('uuid');
 
@@ -23,7 +23,7 @@ module.exports = {
           dog: faker.name.firstName(),
           age: faker.datatype.number({ max: 30 }),
           breed: faker.animal.dog(),
-          gender: faker.random.arrayElement(['M', 'F']),
+          gender: faker.helpers.arrayElement(['M', 'F']),
           weight: faker.datatype.number({
             min: 10,
             max: 50,
@@ -41,7 +41,7 @@ module.exports = {
         password: faker.internet.password(),
         postal: faker.address.zipCode(),
         address: faker.address.city(),
-        gender: faker.random.arrayElement(['M', 'F']),
+        gender: faker.helpers.arrayElement(['M', 'F']),
         created_at: new Date(),
         updated_at: new Date(),
         email: faker.internet.email(),
@@ -51,7 +51,7 @@ module.exports = {
         dog: faker.name.firstName(),
         age: faker.datatype.number({ max: 30 }),
         breed: faker.animal.dog(),
-        gender: faker.random.arrayElement(['M', 'F']),
+        gender: faker.helpers.arrayElement(['M', 'F']),
         weight: faker.datatype.number({
           min: 10,
           max: 50,
@@ -62,10 +62,17 @@ module.exports = {
       });
       locations.push({
         id: locationId,
-        longitude: faker.random.arrayElement([30, 50, 90]),
-        latitude: faker.random.arrayElement([20, 55, 100]),
-        postal: faker.random.arrayElement([520321, 510231, 532013, 142345, 563213]),
-        address: faker.random.arrayElement(['Bedok', 'Simei', 'Novena', 'Botanic Gardens']),
+        longitude: faker.helpers.arrayElement([30, 50, 90]),
+        latitude: faker.helpers.arrayElement([20, 55, 100]),
+        postal: faker.helpers.arrayElement([
+          520321, 510231, 532013, 142345, 563213,
+        ]),
+        address: faker.helpers.arrayElement([
+          'Bedok',
+          'Simei',
+          'Novena',
+          'Botanic Gardens',
+        ]),
         name: username,
         created_at: new Date(),
         updated_at: new Date(),
@@ -83,10 +90,19 @@ module.exports = {
     }
 
     try {
-      const resultUser = await queryInterface.bulkInsert('users', userAccountList);
+      const resultUser = await queryInterface.bulkInsert(
+        'users',
+        userAccountList
+      );
       const resultDog = await queryInterface.bulkInsert('dogs', dogList);
-      const resultlocations = await queryInterface.bulkInsert('locations', locations);
-      const resultRoutines = await queryInterface.bulkInsert('routines', routines);
+      const resultlocations = await queryInterface.bulkInsert(
+        'locations',
+        locations
+      );
+      const resultRoutines = await queryInterface.bulkInsert(
+        'routines',
+        routines
+      );
     } catch (error) {
       console.log(error);
     }
