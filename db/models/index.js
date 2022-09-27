@@ -2,10 +2,10 @@ import { Sequelize } from 'sequelize';
 import url from 'url';
 import allConfig from '../../sequelize.config.cjs';
 
-import initUserModel from './user';
-import initDogModel from './dog';
-import initLocationModel from './location';
-import initRoutineModel from './routine';
+import initUserModel from './user.js';
+import initDogModel from './dog.js';
+import initLocationModel from './location.js';
+import initRoutineModel from './routine.js';
 
 const env = process.env.NODE_ENV || 'development';
 const config = allConfig[env];
@@ -29,6 +29,13 @@ if (env === 'production') {
   config.host = host;
   config.port = port;
   sequelize = new Sequelize(dbName, username, password, config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
 }
 
 // Init Models

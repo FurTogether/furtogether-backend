@@ -1,0 +1,31 @@
+{
+  "name": "furtogether-backend",
+  "version": "1.0.0",
+  "description": "Backend server for furTogether app",
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew, Dong Kun, Regina, Richie",
+  "license": "ISC",
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.19",
+    "sequelize-cli": "^6.4.1"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.5.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jssha": "^3.2.0",
+    "method-override": "^3.0.0",
+    "pg": "^8.8.0",
+    "sequelize": "^6.23.1",
+    "uuid": "^9.0.0"
+  }
+}

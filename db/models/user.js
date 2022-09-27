@@ -12,6 +12,10 @@ export default function initUserModel(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
       password: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -28,10 +32,7 @@ export default function initUserModel(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      email: {
-        type: DataTypes.STRING,
-      },
     },
-    { underscored: true, timestamp: true },
+    { underscored: true, timestamp: true }
   );
 }
