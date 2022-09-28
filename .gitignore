@@ -19,7 +19,6 @@
 .env.production.local
 .env
 
-package.json
 package-lock.json
 README.md
 
