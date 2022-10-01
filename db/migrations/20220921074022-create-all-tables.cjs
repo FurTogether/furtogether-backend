@@ -1,7 +1,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     // USERS TABLE
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable("users", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -9,6 +9,10 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       name: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      email: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -82,33 +86,39 @@ module.exports = {
       },
     });
     // GATHERING LOCATIONS TABLE
-    await queryInterface.createTable('locations', {
+    await queryInterface.createTable("locations", {
+      // id: {
+      //   allowNullL: false,
+      //   primaryKey: true,
+      //   type: Sequelize.UUID,
+      //   defaultValue: Sequelize.UUIDV4,
+      // },
       id: {
-        allowNullL: false,
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: Sequelize.INTEGER,
       },
       name: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      longitude: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       latitude: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
+      },
+      longitude: {
+        allowNull: false,
+        type: Sequelize.FLOAT,
       },
       postal: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
-      address: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
+      // address: {
+      //   allowNull: false,
+      //   type: Sequelize.STRING,
+      // },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -119,7 +129,7 @@ module.exports = {
       },
     });
     // ROUTINES TABLE
-    await queryInterface.createTable('routines', {
+    await queryInterface.createTable("routines", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -127,24 +137,25 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       location_id: {
-        type: Sequelize.UUID,
+        // type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
-          model: 'locations',
-          key: 'id',
+          model: "locations",
+          key: "id",
         },
       },
       user_id: {
         type: Sequelize.UUID,
         references: {
-          model: 'users',
-          key: 'id',
+          model: "users",
+          key: "id",
         },
       },
       dog_id: {
         type: Sequelize.UUID,
         references: {
-          model: 'dogs',
-          key: 'id',
+          model: "dogs",
+          key: "id",
         },
       },
       start_time: {
