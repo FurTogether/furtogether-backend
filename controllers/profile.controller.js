@@ -167,6 +167,7 @@ class ProfileController {
   // Delete dog profile
   deleteDogProfile = async (req, res, next) => {
     try {
+      
     } catch (err) {
       console.log(err);
       next(err);
