@@ -26,8 +26,7 @@ app.use(express.static('public'));
 app.use(express.static('dist'));
 app.use(cors(corsOptions));
 app.use(methodOverride('_method'));
-
-const routers = [AuthRouter, WalkRouter];
+const routers = [AuthRouter, ProfileRouter, WalkRouter];
 routers.forEach((router) => app.use('/', router));
 
 app.use(errorMiddleware);
