@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 import AuthRouter from './routes/auth.routes.js';
+import ProfileRouter from './routes/profile.routes.js';
+import WalkRouter from './routes/walk.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 
 const corsOptions = {
@@ -24,8 +26,7 @@ app.use(express.static('public'));
 app.use(express.static('dist'));
 app.use(cors(corsOptions));
 app.use(methodOverride('_method'));
-
-const routers = [AuthRouter];
+const routers = [AuthRouter, ProfileRouter, WalkRouter];
 routers.forEach((router) => app.use('/', router));
 
 app.use(errorMiddleware);
