@@ -8,10 +8,10 @@ const router = Router();
 const profileController = new ProfileController(db);
 
 router.get('/profile', authMiddleware, profileController.getHumanProfile);
-router.post(
-  '/profile/update',
+router.put(
+  '/profile/updateUser',
   authMiddleware,
-  profileController.updateHumanProfile
+  profileController.updateUserProfile
 );
 router.put(
   '/profile/updateDog',
@@ -21,7 +21,11 @@ router.put(
 router.delete(
   '/profile/deleteDog',
   authMiddleware,
-  profileController.updateDogProfile
+  profileController.deleteDogProfile
 );
-
+router.post(
+  '/profile/createDog',
+  authMiddleware,
+  profileController.createDogProfile
+);
 export default router;
