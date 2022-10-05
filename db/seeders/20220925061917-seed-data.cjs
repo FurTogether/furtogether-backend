@@ -130,8 +130,9 @@ module.exports = {
         dog_id: dogId,
         user_id: accountOwnerUserId,
         location_id: Math.floor(Math.random() * 4) + 1, //locationId,
-        start_time: new Date(),
-        end_time: faker.date.soon(1, new Date()),
+        start_time:
+          Math.floor(Math.random() * 2) + ":" + Math.floor(Math.random() * 60), //new Date(),
+        end_time: Math.floor(Math.random() * 24) + ":" + Math.floor(Math.random() * 60), //faker.date.soon(1, new Date()),
         created_at: new Date(),
         updated_at: new Date(),
       });

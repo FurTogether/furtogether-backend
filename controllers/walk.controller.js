@@ -6,10 +6,10 @@ const getHeadCount = async (req, res) => {
   try {
     const { markerIndex } = req.params;
     // 1. get time of user
-    // const user_id = req.cookie("userId");
+    const { userId } = req.cookies;
     const person = await db.Routine.findOne({
       where: {
-        user_id: "1cc23a76-0b3d-41e3-a9f6-0ea3d1cb5017", // user_id,
+        userId, //"1cc23a76-0b3d-41e3-a9f6-0ea3d1cb5017",
       },
     });
 
@@ -77,7 +77,11 @@ const getAllMarkers = async (req, res) => {
 const changeHeadCount = async (req, res) => {
   try {
     const { markerIndex } = req.params;
-    console.log(`the markerindex`, parseInt(markerIndex));
+    console.log(
+      `>>>>>>>>>>>>>>>>>>>>>>> the markerindex`,
+      parseInt(markerIndex)
+    );
+    console.log("all cookies", req.cookies);
     const { userId } = req.cookies;
 
     console.log(`the userId`, userId);
@@ -88,7 +92,7 @@ const changeHeadCount = async (req, res) => {
       },
       {
         where: {
-          user_id: "1cc23a76-0b3d-41e3-a9f6-0ea3d1cb5017", //userId
+          userId, //: "e726585c-efa6-4f07-96fb-0deb6b2c6ebd", //userId
         },
       }
     );

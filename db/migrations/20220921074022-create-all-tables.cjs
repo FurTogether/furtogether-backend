@@ -160,11 +160,13 @@ module.exports = {
       },
       start_time: {
         allowNull: false,
-        type: Sequelize.DATE,
+        // type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       end_time: {
         allowNull: false,
-        type: Sequelize.DATE,
+        // type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       created_at: {
         allowNull: false,

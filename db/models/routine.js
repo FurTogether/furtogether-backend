@@ -1,6 +1,6 @@
 export default function initRoutineModel(sequelize, DataTypes) {
   return sequelize.define(
-    'routine',
+    "routine",
     {
       id: {
         allowNull: false,
@@ -11,17 +11,19 @@ export default function initRoutineModel(sequelize, DataTypes) {
       location_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'locations',
-          key: 'id',
+          model: "locations",
+          key: "id",
         },
       },
       start_time: {
         allowNull: false,
-        type: DataTypes.DATE,
+        // type: DataTypes.DATE,
+        type: DataTypes.STRING,
       },
       end_time: {
         allowNull: false,
-        type: DataTypes.DATE,
+        // type: DataTypes.DATE,
+        type: DataTypes.STRING,
       },
     },
     { underscored: true, timestamp: true }
