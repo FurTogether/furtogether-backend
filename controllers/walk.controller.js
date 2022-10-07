@@ -4,7 +4,7 @@ const Op = Sequelize.Op;
 
 const getHeadCount = async (req, res) => {
   try {
-    const { markerIndex } = req.params;
+    // const { markerIndex } = req.params;
     // 1. get time of user
     const { userId } = req.cookies;
     const person = await db.Routine.findOne({
@@ -54,7 +54,7 @@ const getAllMarkers = async (req, res) => {
     const results = await db.Location.findAll({
       include: { as: "routines", model: db.Routine, required: false },
     });
-    // console.log(`the markers`, result.length);
+    console.log(`the markers`, results);
     const formattedResults = results.map((result) => {
       return {
         id: result.id,
@@ -77,18 +77,28 @@ const getAllMarkers = async (req, res) => {
 const changeHeadCount = async (req, res) => {
   try {
     const { markerIndex } = req.params;
+    const { st } = req.query;
+    // const { startInt } = req.params;
+    console.log(req.params, typeof st);
     console.log(
       `>>>>>>>>>>>>>>>>>>>>>>> the markerindex`,
-      parseInt(markerIndex)
+      parseInt(markerIndex),
+      "start_time",
+      st + ":00",
+      "end_time",
+      (parseInt(st) + 1).toString() + ":00"
     );
+
     console.log("all cookies", req.cookies);
     const { userId } = req.cookies;
 
-    console.log(`the userId`, userId);
+    console.log(`the userId`, userId, markerIndex, st);
 
     const updatedRows = await db.Routine.update(
       {
         location_id: parseInt(markerIndex),
+        start_time: `${st}:00`,
+        end_time: `${(Number(st) + 1).toString()}:00`,
       },
       {
         where: {
@@ -103,4 +113,73 @@ const changeHeadCount = async (req, res) => {
     res.status(500).json({ error: error.toString() });
   }
 };
-export { getHeadCount, getAllMarkers, changeHeadCount };
+
+const getSameTimingMarkers = async (req, res) => {
+  try {
+    const { startInt } = req.query;
+    const results = await db.Routine.findAll({
+      include: [
+        {
+          as: "location",
+          model: db.Location,
+        },
+      ],
+    });
+
+    const changeToInt = results.map((result) => {
+      return {
+        id: result.location_id,
+        start: parseInt(result.start_time.split(":")[0]),
+        end: parseInt(result.end_time.split(":")[0]),
+        name: result.location.name,
+        position: {
+          lat: result.location.latitude,
+          lng: result.location.longitude,
+        },
+      };
+    });
+    const matchTimings = changeToInt.map((result) => {
+      if (result.start <= 3) {
+        //startInt)
+        return {
+          id: result.id,
+          name: result.name,
+          position: {
+            lat: result.position.lat,
+            lng: result.position.lng,
+          },
+        };
+      }
+    });
+
+    console.log("matchTimings", matchTimings.length, matchTimings);
+    matchTimings.forEach((item) => {
+      if (!matchTimings[item.name]) {
+        matchTimings[item.name] = {
+          id: item.id,
+          name: item.name,
+          position: item.position,
+          headCount: 1,
+        };
+      } else {
+        matchTimings[item.name].headCount++;
+      }
+    });
+    const testA = [];
+    for (const key in matchTimings) {
+      testA.push(matchTimings[key]);
+    }
+    const markers = [];
+    for (let i = 0; i < testA.length; i++) {
+      if ("headCount" in testA[i]) {
+        markers.push(testA[i]);
+      }
+    }
+    console.log("markers", markers, markers.length);
+    res.status(200).json(markers);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+};
+
+export { getHeadCount, getAllMarkers, changeHeadCount, getSameTimingMarkers };
