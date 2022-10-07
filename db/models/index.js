@@ -6,6 +6,7 @@ import initUserModel from './user.js';
 import initDogModel from './dog.js';
 import initLocationModel from './location.js';
 import initRoutineModel from './routine.js';
+import initRoutineUserModel from './routineUser.js';
 
 const env = process.env.NODE_ENV || 'development';
 const config = allConfig[env];
@@ -43,16 +44,23 @@ db.User = initUserModel(sequelize, Sequelize.DataTypes);
 db.Dog = initDogModel(sequelize, Sequelize.DataTypes);
 db.Location = initLocationModel(sequelize, Sequelize.DataTypes);
 db.Routine = initRoutineModel(sequelize, Sequelize.DataTypes);
+db.RoutineUser = initRoutineUserModel(sequelize, Sequelize.DataTypes);
 
 // User relations
 db.User.hasMany(db.Dog);
 db.Dog.belongsTo(db.User);
 
+// Routine_user relations
+db.User.hasMany(db.RoutineUser);
+db.RoutineUser.belongsTo(db.User);
+
 // Routine Relations
+db.RoutineUser.hasMany(db.Routine);
 db.User.hasMany(db.Routine);
 db.Dog.hasMany(db.Routine);
 db.Location.hasMany(db.Routine);
 db.Routine.belongsTo(db.User);
+db.Routine.belongsTo(db.RoutineUser);
 db.Routine.belongsTo(db.Dog);
 db.Routine.belongsTo(db.Location);
 

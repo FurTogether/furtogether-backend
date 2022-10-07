@@ -15,6 +15,24 @@ export default function initRoutineModel(sequelize, DataTypes) {
           key: 'id',
         },
       },
+      dog_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'dogs',
+          key: 'id',
+        },
+      },
+      routine_user_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'routine_users',
+          key: 'id',
+        },
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
       start_time: {
         allowNull: false,
         type: DataTypes.DATE,
