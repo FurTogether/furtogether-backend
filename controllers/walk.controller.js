@@ -116,7 +116,8 @@ const changeHeadCount = async (req, res) => {
 
 const getSameTimingMarkers = async (req, res) => {
   try {
-    const { startInt } = req.query;
+    const { start_int } = req.query;
+    console.log('startInt', start_int)
     const results = await db.Routine.findAll({
       include: [
         {
@@ -125,7 +126,7 @@ const getSameTimingMarkers = async (req, res) => {
         },
       ],
     });
-
+ console.log(results.dataValues)
     const changeToInt = results.map((result) => {
       return {
         id: result.location_id,
@@ -139,7 +140,9 @@ const getSameTimingMarkers = async (req, res) => {
       };
     });
     const matchTimings = changeToInt.map((result) => {
-      if (result.start <= 3) {
+      console.log(`result.start`, result.start)
+      console.log(`start_int`, start_int, typeof(start_int), Number(start_int))
+      if (result.start <= Number(start_int)) {
         //startInt)
         return {
           id: result.id,
