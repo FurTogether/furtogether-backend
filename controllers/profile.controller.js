@@ -10,7 +10,6 @@ class ProfileController {
   getHumanProfile = async (req, res, next) => {
     try {
       const { userId } = req.cookies;
-      console.log(userId);
       const userProfile = await this.db.User.findOne({
         where: {
           id: userId,
@@ -45,23 +44,20 @@ class ProfileController {
   createDogProfile = async (req, res, next) => {
     try {
       const { userId } = req.cookies;
-      const { dogArr } = req.body;
-      const updatedDogArr = [];
-      dogArr.forEach(async (dogProfile) => {
-        const newDog = await this.db.Dog.create({
-          userId,
-          dog: dogProfile.dog,
-          breed: dogProfile.breed,
-          age: dogProfile.age,
-          gender: dogProfile.gender,
-          weight: dogProfile.weight,
-        });
-        updatedDogArr.push(newDog);
+      const dogProfile = req.body;
+      const newDog = await this.db.Dog.create({
+        userId,
+        dog: dogProfile.dog,
+        breed: dogProfile.breed,
+        age: dogProfile.age,
+        gender: dogProfile.gender,
+        weight: dogProfile.weight,
       });
+
       res.status(200).json({
         success: true,
         data: {
-          dogArr: updatedDogArr,
+          newDog,
         },
       });
     } catch (err) {
@@ -91,6 +87,7 @@ class ProfileController {
           returning: true,
         }
       );
+      // Save Failed
       if (!isUpdated) {
         throw new HttpException(500, 30001, 'Profile not saved');
       }
@@ -107,18 +104,18 @@ class ProfileController {
   };
 
   // Update profile details for both human and dog based on userId
-  updateHumanProfile = async (req, res, next) => {
+  updateUserProfile = async (req, res, next) => {
     try {
       const { userId } = req.cookies;
-      const { name, email, postal, address, gender } = req.body;
-      const updatedUser = await this.db.User.update(
+      const userProfile = req.body;
+      const [isUpdated, updatedUserProfile] = await this.db.User.update(
         {
           // Cols to be updated
-          name,
-          email,
-          postal,
-          address,
-          gender,
+          name: userProfile.name,
+          email: userProfile.email,
+          postal: userProfile.postal,
+          address: userProfile.address,
+          gender: userProfile.gender,
           updatedAt: Date.now(),
         },
         {
@@ -126,36 +123,17 @@ class ProfileController {
           where: {
             id: userId,
           },
+          returning: true,
         }
       );
-      // Dogs if exist will come in an array to cater for more than one dog
-      updatedUser.dogs = [];
-      if (req.body.dogsArr) {
-        const { dogsArr } = req.body;
-        console.log('dog', dogsArr);
-        dogsArr.forEach(async (dogProfile) => {
-          const updatedDog = await this.db.Dog.update(
-            {
-              dog: dogProfile.dog,
-              breed: dogProfile.breed,
-              age: dogProfile.age,
-              gender: dogProfile.gender,
-              weight: dogProfile.weight,
-              updatedAt: Date.now(),
-            },
-            {
-              where: {
-                [Op.and]: [{ id: dogProfile.id }, { userId }],
-              },
-            }
-          );
-          updatedUser.dogs.push(updatedDog);
-        });
+      // Save Failed
+      if (!isUpdated) {
+        throw new HttpException(500, 30001, 'Profile not saved');
       }
       res.status(200).json({
         success: true,
         data: {
-          userProfile: updatedUser,
+          userProfile: updatedUserProfile,
         },
       });
     } catch (err) {
@@ -167,7 +145,21 @@ class ProfileController {
   // Delete dog profile
   deleteDogProfile = async (req, res, next) => {
     try {
-      
+      const { userId } = req.cookies;
+      const dogId = req.body;
+      const isDeleted = await this.db.Dog.destroy({
+        where: {
+          userId,
+          id: dogId,
+        },
+      });
+      // Save Failed
+      if (!isDeleted) {
+        throw new HttpException(500, 30001, 'Profile not deleted');
+      }
+      res.status(200).json({
+        success: true,
+      });
     } catch (err) {
       console.log(err);
       next(err);

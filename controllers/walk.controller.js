@@ -48,8 +48,8 @@ const getHeadCount = async (req, res) => {
 };
 
 const getAllMarkers = async (req, res) => {
-  const array = [];
-  const place = {};
+  // const array = [];
+  // const place = {};
   try {
     const results = await db.Location.findAll({
       include: { as: "routines", model: db.Routine, required: false },
@@ -74,4 +74,29 @@ const getAllMarkers = async (req, res) => {
   }
 };
 
-export { getHeadCount, getAllMarkers };
+const changeHeadCount = async (req, res) => {
+  try {
+    const { markerIndex } = req.params;
+    console.log(`the markerindex`, parseInt(markerIndex));
+    const { userId } = req.cookies;
+
+    console.log(`the userId`, userId);
+
+    const updatedRows = await db.Routine.update(
+      {
+        location_id: parseInt(markerIndex),
+      },
+      {
+        where: {
+          user_id: "1cc23a76-0b3d-41e3-a9f6-0ea3d1cb5017", //userId
+        },
+      }
+    );
+    console.log(`updated info`, updatedRows);
+
+    res.status(200).json(updatedRows);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+};
+export { getHeadCount, getAllMarkers, changeHeadCount };
