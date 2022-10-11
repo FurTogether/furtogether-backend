@@ -1,18 +1,18 @@
-/* eslint-disable linebreak-style */
-const { faker } = require("@faker-js/faker");
+const { faker } = require('@faker-js/faker');
 // npm install uuid
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     const userAccountList = [];
     const dogList = [];
-    // const locations = [];
     const routines = [];
+    const routine_dogs = [];
+    const daily = [];
     const locations = [
       {
-        id: 0,
-        name: "ACSJ",
+        id: uuidv4(),
+        name: 'ACSJ',
         latitude: 1.3092704692453194,
         longitude: 103.84171357848649,
         postal: 227988,
@@ -20,8 +20,8 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        id: 1,
-        name: "Teachers Network",
+        id: uuidv4(),
+        name: 'Teachers Network',
         latitude: 1.2983567346608644,
         longitude: 103.82811403272059,
         postal: 249564,
@@ -29,8 +29,8 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        id: 2,
-        name: "Botanic Gardens",
+        id: uuidv4(),
+        name: 'Botanic Gardens',
         latitude: 1.3120259209221141,
         longitude: 103.81481877874702,
         postal: 259569,
@@ -38,8 +38,8 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        id: 3,
-        name: "Irwell Bank",
+        id: uuidv4(),
+        name: 'Irwell Bank',
         latitude: 1.2979640772346543,
         longitude: 103.83103939668233,
         postal: 239200,
@@ -47,8 +47,8 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        id: 4,
-        name: "Chatsworth Park",
+        id: uuidv4(),
+        name: 'Chatsworth Park',
         latitude: 1.3018063725719684,
         longitude: 103.82199634420073,
         postal: 249767,
@@ -60,8 +60,8 @@ module.exports = {
     for (let i = 0; i < 10; i += 1) {
       const accountOwnerUserId = uuidv4();
       const dogId = uuidv4();
-      // const locationId = uuidv4();
       const username = faker.internet.userName();
+      const routineId = uuidv4();
 
       // Create 1 same guy with 2 dog
       if (i === 3) {
@@ -70,7 +70,7 @@ module.exports = {
           dog: faker.name.firstName(),
           age: faker.datatype.number({ max: 30 }),
           breed: faker.animal.dog(),
-          gender: faker.helpers.arrayElement(["M", "F"]),
+          gender: faker.helpers.arrayElement(['M', 'F']),
           weight: faker.datatype.number({
             min: 10,
             max: 50,
@@ -85,10 +85,11 @@ module.exports = {
       userAccountList.push({
         id: accountOwnerUserId,
         name: username,
-        password: 'testing', // faker.internet.password(),
+        password:
+          '521b9ccefbcd14d179e7a1bb877752870a6d620938b28a66a107eac6e6805b9d0989f45b5730508041aa5e710847d439ea74cd312c9355f1f2dae08d40e41d50', // Password is 'testing',
         postal: faker.address.zipCode(),
         address: faker.address.city(),
-        gender: faker.helpers.arrayElement(["M", "F"]),
+        gender: faker.helpers.arrayElement(['M', 'F']),
         created_at: new Date(),
         updated_at: new Date(),
         email: faker.internet.email(),
@@ -98,7 +99,7 @@ module.exports = {
         dog: faker.name.firstName(),
         age: faker.datatype.number({ max: 30 }),
         breed: faker.animal.dog(),
-        gender: faker.helpers.arrayElement(["M", "F"]),
+        gender: faker.helpers.arrayElement(['M', 'F']),
         weight: faker.datatype.number({
           min: 10,
           max: 50,
@@ -107,59 +108,72 @@ module.exports = {
         updated_at: new Date(),
         user_id: accountOwnerUserId,
       });
-      // locations.push({
-      //   id: locationId,
-      //   // longitude: faker.helpers.arrayElement([30, 50, 90]),
-      //   // latitude: faker.helpers.arrayElement([20, 55, 100]),
-      //   postal: faker.helpers.arrayElement([
-      //     227988, 249564, 257494, 239200, 249767,
-      //   ]),
-      //   address: faker.helpers.arrayElement([
-      //     "ACSJ",
-      //     "Teachers Network",
-      //     "Botanic Gardens",
-      //     "Irwell Bank",
-      //     "Chatsworth Park",
-      //   ]),
-      //   // name: username,
-      // created_at: new Date(),
-      // updated_at: new Date(),
-      // });
+
       routines.push({
+        id: routineId,
+        user_id: accountOwnerUserId,
+        name: 'Walkwalk',
+        location_id: locations[faker.datatype.number({ min: 0, max: 4 })].id,
+        start_time:
+          String(
+            faker.datatype.number({
+              min: 0,
+              max: 23,
+            })
+          ) +
+          ':' +
+          String(faker.datatype.number({ min: 0, max: 5 })) +
+          String(faker.datatype.number({ min: 0, max: 9 })),
+        end_time: '23:00',
+        days: 'mon',
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+
+      routine_dogs.push({
         id: uuidv4(),
         dog_id: dogId,
+        routine_id: routineId,
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+
+      daily.push({
+        id: uuidv4(),
+        location_id: locations[faker.datatype.number({ min: 0, max: 4 })].id,
         user_id: accountOwnerUserId,
-        location_id: Math.floor(Math.random() * 4) + 1, //locationId,
         start_time:
-          Math.floor(Math.random() * 2) + ":" + Math.floor(Math.random() * 60), //new Date(),
-        end_time: Math.floor(Math.random() * 24) + ":" + Math.floor(Math.random() * 60), //faker.date.soon(1, new Date()),
+          String(
+            faker.datatype.number({
+              min: 0,
+              max: 18,
+            })
+          ) +
+          ':' +
+          String(faker.datatype.number({ min: 0, max: 5 })) +
+          String(faker.datatype.number({ min: 0, max: 9 })),
         created_at: new Date(),
         updated_at: new Date(),
       });
     }
 
     try {
-      const resultUser = await queryInterface.bulkInsert(
-        "users",
-        userAccountList
-      );
-      const resultDog = await queryInterface.bulkInsert("dogs", dogList);
-      const resultlocations = await queryInterface.bulkInsert(
-        "locations",
-        locations
-      );
-      const resultRoutines = await queryInterface.bulkInsert(
-        "routines",
-        routines
-      );
+      const resultUser = await queryInterface.bulkInsert('users', userAccountList);
+      const resultDog = await queryInterface.bulkInsert('dogs', dogList);
+      const resultlocations = await queryInterface.bulkInsert('locations', locations);
+      const resultRoutines = await queryInterface.bulkInsert('routines', routines);
+      const resultRoutineDogs = await queryInterface.bulkInsert('routine_dogs', routine_dogs);
+      const resultDaily = await queryInterface.bulkInsert('daily', daily);
     } catch (error) {
       console.log(error);
     }
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("users", null, {});
-    await queryInterface.bulkDelete("dogs", null, {});
-    await queryInterface.bulkDelete("locations", null, {});
-    await queryInterface.bulkDelete("resultRoutines", null, {});
+    await queryInterface.bulkDelete('daily', null, {});
+    await queryInterface.bulkDelete('routine_dogs', null, {});
+    await queryInterface.bulkDelete('routines', null, {});
+    await queryInterface.bulkDelete('locations', null, {});
+    await queryInterface.bulkDelete('dogs', null, {});
+    await queryInterface.bulkDelete('users', null, {});
   },
 };
