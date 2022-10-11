@@ -1,6 +1,6 @@
-export default function initRoutineUserModel(sequelize, DataTypes) {
+export default function initRoutineDogModel(sequelize, DataTypes) {
   return sequelize.define(
-    'routine_user',
+    'routine_dogs',
     {
       id: {
         allowNull: false,
@@ -8,10 +8,17 @@ export default function initRoutineUserModel(sequelize, DataTypes) {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      user_id: {
+      routine_id: {
         type: DataTypes.UUID,
         references: {
-          model: 'users',
+          model: 'routines',
+          key: 'id',
+        },
+      },
+      dog_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'dogs',
           key: 'id',
         },
       },

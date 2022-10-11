@@ -8,7 +8,7 @@ import path from 'path';
 import AuthRouter from './routes/auth.routes.js';
 import ProfileRouter from './routes/profile.routes.js';
 import WalkRouter from './routes/walk.js';
-import RoutineRouter from './routes/routineUser.routes.js';
+import RoutineRouter from './routes/routine.routes.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 
 const corsOptions = {
