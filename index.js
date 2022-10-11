@@ -8,11 +8,22 @@ import path from 'path';
 import AuthRouter from './routes/auth.routes.js';
 import ProfileRouter from './routes/profile.routes.js';
 import WalkRouter from './routes/walk.js';
+import RoutineRouter from './routes/routine.routes.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 
 const corsOptions = {
   origin: 'http://localhost:3000',
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+    'X-API-Key',
+  ],
   credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
 };
 
 const envFilePath = '.env';
@@ -26,7 +37,7 @@ app.use(express.static('public'));
 app.use(express.static('dist'));
 app.use(cors(corsOptions));
 app.use(methodOverride('_method'));
-const routers = [AuthRouter, ProfileRouter, WalkRouter];
+const routers = [AuthRouter, ProfileRouter, WalkRouter, RoutineRouter];
 routers.forEach((router) => app.use('/', router));
 
 app.use(errorMiddleware);
