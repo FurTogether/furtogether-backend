@@ -8,6 +8,7 @@ import initLocationModel from './location.js';
 import initRoutineModel from './routine.js';
 import initRoutineDogModel from './routineDog.js';
 import initDailyModel from './daily.js';
+import initPhotoModel from './photo.js';
 
 const env = process.env.NODE_ENV || 'development';
 const config = allConfig[env];
@@ -21,10 +22,7 @@ if (env === 'production') {
   const { DATABASE_URL } = process.env;
   const dbUrl = url.parse(DATABASE_URL);
   const username = dbUrl.auth.substr(0, dbUrl.auth.indexOf(':'));
-  const password = dbUrl.auth.substr(
-    dbUrl.auth.indexOf(':') + 1,
-    dbUrl.auth.length
-  );
+  const password = dbUrl.auth.substr(dbUrl.auth.indexOf(':') + 1, dbUrl.auth.length);
   const dbName = dbUrl.path.slice(1);
   const host = dbUrl.hostname;
   const { port } = dbUrl;
@@ -32,12 +30,7 @@ if (env === 'production') {
   config.port = port;
   sequelize = new Sequelize(dbName, username, password, config);
 } else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
 // Init Models
@@ -47,6 +40,7 @@ db.Location = initLocationModel(sequelize, Sequelize.DataTypes);
 db.Routine = initRoutineModel(sequelize, Sequelize.DataTypes);
 db.RoutineDog = initRoutineDogModel(sequelize, Sequelize.DataTypes);
 db.Daily = initDailyModel(sequelize, Sequelize.DataTypes);
+db.Photo = initPhotoModel(sequelize, Sequelize.DataTypes);
 
 // User relations
 db.User.hasMany(db.Dog);
@@ -69,6 +63,12 @@ db.User.hasMany(db.Daily);
 db.Daily.belongsTo(db.User);
 db.Location.hasMany(db.Daily);
 db.Daily.belongsTo(db.Location);
+
+// Photo Relations
+db.Photo.belongTo(db.User);
+db.Photo.belongTo(db.Dog);
+db.Dog.hasMany(db.Photos);
+db.User.hasMany(db.Photos);
 
 // Sequelize init
 db.sequelize = sequelize;

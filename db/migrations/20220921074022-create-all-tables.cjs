@@ -32,6 +32,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      avatar_url: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -199,7 +203,7 @@ module.exports = {
     });
 
     // DAILY TABLE
-    await queryInterface.createTable('daily', {
+    await queryInterface.createTable('dailies', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -233,10 +237,51 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    // DAILY TABLE
+    await queryInterface.createTable('photos', {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+      },
+      user_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      dog_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'dogs',
+          key: 'id',
+        },
+      },
+      url: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      start_time: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('daily');
+    await queryInterface.dropTable('photos');
+    await queryInterface.dropTable('dailies');
     await queryInterface.dropTable('routine_dogs');
     await queryInterface.dropTable('routines');
     await queryInterface.dropTable('locations');
