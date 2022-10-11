@@ -1,7 +1,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     // USERS TABLE
-    await queryInterface.createTable("users", {
+    await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -31,6 +31,10 @@ module.exports = {
       gender: {
         allowNull: false,
         type: Sequelize.STRING,
+      },
+      avatar_url: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       created_at: {
         allowNull: false,
@@ -86,18 +90,12 @@ module.exports = {
       },
     });
     // GATHERING LOCATIONS TABLE
-    await queryInterface.createTable("locations", {
-      // id: {
-      //   allowNullL: false,
-      //   primaryKey: true,
-      //   type: Sequelize.UUID,
-      //   defaultValue: Sequelize.UUIDV4,
-      // },
+    await queryInterface.createTable('locations', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        allowNullL: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       name: {
         allowNull: false,
@@ -113,12 +111,8 @@ module.exports = {
       },
       postal: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
-      // address: {
-      //   allowNull: false,
-      //   type: Sequelize.STRING,
-      // },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -129,7 +123,7 @@ module.exports = {
       },
     });
     // ROUTINES TABLE
-    await queryInterface.createTable("routines", {
+    await queryInterface.createTable('routines', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -137,34 +131,142 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       location_id: {
-        // type: Sequelize.UUID,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
-          model: "locations",
-          key: "id",
+          model: 'locations',
+          key: 'id',
         },
       },
       user_id: {
         type: Sequelize.UUID,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
+        },
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      days: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      start_time: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      end_time: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+
+    // ROUTINE DOGS TABLE
+    await queryInterface.createTable('routine_dogs', {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+      },
+      dog_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'dogs',
+          key: 'id',
+        },
+      },
+      routine_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'routines',
+          key: 'id',
+        },
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+
+    // DAILY TABLE
+    await queryInterface.createTable('dailies', {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+      },
+      user_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      location_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'locations',
+          key: 'id',
+        },
+      },
+      start_time: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+
+    // DAILY TABLE
+    await queryInterface.createTable('photos', {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+      },
+      user_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'users',
+          key: 'id',
         },
       },
       dog_id: {
         type: Sequelize.UUID,
         references: {
-          model: "dogs",
-          key: "id",
+          model: 'dogs',
+          key: 'id',
         },
       },
-      start_time: {
+      url: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.DATE,
       },
-      end_time: {
+      start_time: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.DATE,
       },
       created_at: {
         allowNull: false,
@@ -178,6 +280,9 @@ module.exports = {
   },
 
   async down(queryInterface) {
+    await queryInterface.dropTable('photos');
+    await queryInterface.dropTable('dailies');
+    await queryInterface.dropTable('routine_dogs');
     await queryInterface.dropTable('routines');
     await queryInterface.dropTable('locations');
     await queryInterface.dropTable('dogs');

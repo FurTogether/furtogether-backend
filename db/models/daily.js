@@ -1,10 +1,11 @@
-export default function initRoutineModel(sequelize, DataTypes) {
+export default function initDailyModel(sequelize, DataTypes) {
   return sequelize.define(
-    'routine',
+    'daily',
     {
       id: {
-        allowNull: false,
+        allowNullL: false,
         primaryKey: true,
+        autoIncrement: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
@@ -22,19 +23,7 @@ export default function initRoutineModel(sequelize, DataTypes) {
           key: 'id',
         },
       },
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      days: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
       start_time: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      end_time: {
         allowNull: false,
         type: DataTypes.STRING,
       },
