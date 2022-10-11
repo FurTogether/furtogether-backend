@@ -65,8 +65,8 @@ db.Location.hasMany(db.Daily);
 db.Daily.belongsTo(db.Location);
 
 // Photo Relations
-db.Photo.belongTo(db.User);
-db.Photo.belongTo(db.Dog);
+db.Photo.belongsTo(db.User);
+db.Photo.belongsTo(db.Dog);
 db.Dog.hasMany(db.Photos);
 db.User.hasMany(db.Photos);
 
