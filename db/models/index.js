@@ -67,8 +67,8 @@ db.Daily.belongsTo(db.Location);
 // Photo Relations
 db.Photo.belongsTo(db.User);
 db.Photo.belongsTo(db.Dog);
-db.Dog.hasMany(db.Photos);
-db.User.hasMany(db.Photos);
+db.Dog.hasMany(db.Photo);
+db.User.hasMany(db.Photo);
 
 // Sequelize init
 db.sequelize = sequelize;

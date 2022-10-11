@@ -148,7 +148,7 @@ class RoutineController {
   deleteRoutine = async (req, res, next) => {
     try {
       const { userId } = req.cookies;
-      const routineId = req.body;
+      const { routineId } = req.body;
       console.log({ routineId });
       const deleteRoutineDogs = await this.db.RoutineDog.destroy({
         where: {

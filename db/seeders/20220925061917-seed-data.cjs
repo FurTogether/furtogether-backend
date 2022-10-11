@@ -163,13 +163,13 @@ module.exports = {
       const resultlocations = await queryInterface.bulkInsert('locations', locations);
       const resultRoutines = await queryInterface.bulkInsert('routines', routines);
       const resultRoutineDogs = await queryInterface.bulkInsert('routine_dogs', routine_dogs);
-      const resultDaily = await queryInterface.bulkInsert('daily', daily);
+      const resultDaily = await queryInterface.bulkInsert('dailies', daily);
     } catch (error) {
       console.log(error);
     }
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('daily', null, {});
+    await queryInterface.bulkDelete('dailies', null, {});
     await queryInterface.bulkDelete('routine_dogs', null, {});
     await queryInterface.bulkDelete('routines', null, {});
     await queryInterface.bulkDelete('locations', null, {});

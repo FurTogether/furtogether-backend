@@ -10,6 +10,6 @@ const routineController = new RoutineController(db);
 router.get('/routines', authMiddleware, routineController.getRoutines);
 router.post('/routines/create', authMiddleware, routineController.createRoutines);
 router.put('/routines/update', authMiddleware, routineController.updateRoutine);
-router.delete('/routines/delete', authMiddleware, routineController.deleteRoutine);
+router.put('/routines/delete', authMiddleware, routineController.deleteRoutine);
 
 export default router;
