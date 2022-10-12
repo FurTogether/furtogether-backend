@@ -1,10 +1,11 @@
-export default function initRoutineModel(sequelize, DataTypes) {
+export default function initPhotoModel(sequelize, DataTypes) {
   return sequelize.define(
-    'routine',
+    'photo',
     {
       id: {
-        allowNull: false,
+        allowNullL: false,
         primaryKey: true,
+        autoIncrement: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
@@ -15,26 +16,14 @@ export default function initRoutineModel(sequelize, DataTypes) {
           key: 'id',
         },
       },
-      location_id: {
+      dog_id: {
         type: DataTypes.UUID,
         references: {
-          model: 'locations',
+          model: 'dogs',
           key: 'id',
         },
       },
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      days: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      start_time: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      end_time: {
+      url: {
         allowNull: false,
         type: DataTypes.STRING,
       },

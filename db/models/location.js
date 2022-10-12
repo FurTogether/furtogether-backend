@@ -1,14 +1,13 @@
 export default function initLocationModel(sequelize, DataTypes) {
   return sequelize.define(
-    "location",
+    'location',
     {
       id: {
         allowNullL: false,
         primaryKey: true,
         autoIncrement: true,
-        type: DataTypes.INTEGER,
-        // type: DataTypes.UUID,
-        // defaultValue: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
       },
       name: {
         allowNull: false,
@@ -24,12 +23,8 @@ export default function initLocationModel(sequelize, DataTypes) {
       },
       postal: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
-      // address: {
-      //   allowNull: false,
-      //   type: DataTypes.STRING,
-      // },
     },
     { underscored: true, timestamp: true }
   );
