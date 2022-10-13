@@ -13,7 +13,17 @@ import errorMiddleware from './middlewares/error.middleware.js';
 
 const corsOptions = {
   origin: 'http://localhost:3000',
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+    'X-API-Key',
+  ],
   credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
 };
 
 const envFilePath = '.env';
