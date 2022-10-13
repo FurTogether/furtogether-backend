@@ -201,7 +201,7 @@ module.exports = {
     });
 
     // DAILY TABLE
-    await queryInterface.createTable('daily', {
+    await queryInterface.createTable('dailies', {
       id: {
         allowNull: false,
         primaryKey: true,
