@@ -3,6 +3,16 @@ export default class WalkController {
     this.db = db;
   }
 
+  getAllMarkers = async (req, res, next) => {
+    try {
+      const locations = await this.db.Location.findAll();
+      res.status(200).json({ locations });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  };
+
   getUserDaily = async (req, res, next) => {
     try {
       const { userId } = req.cookies;

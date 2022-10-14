@@ -10,5 +10,6 @@ router.get('/api/walk/user', walkController.getUserDaily);
 router.post('/api/walk/map', walkController.getSameTimingMarkers);
 router.delete('/api/walk/cancel', walkController.deleteDaily);
 router.put('/api/walk/join', walkController.changeHeadCount);
+router.get('/api/walk/markers', walkController.getAllMarkers);
 
 export default router;

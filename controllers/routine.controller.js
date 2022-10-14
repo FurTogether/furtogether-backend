@@ -12,6 +12,7 @@ class RoutineController {
       const { userId } = req.cookies;
       const routineDetails = req.body;
       // Create new routine_user for the routineId
+      console.log({ routineDetails });
       const newRoutine = await this.db.Routine.create(
         {
           userId,
@@ -23,7 +24,6 @@ class RoutineController {
         },
         { returning: true }
       );
-      console.log({ newRoutine });
       // Create a routineDogs entry for each dog tagged for the routine
       const newRoutineDogs = await routineDetails.dogs.forEach((dog) => {
         this.db.RoutineDog.create(
@@ -69,6 +69,7 @@ class RoutineController {
           name: entry.name,
           days: daysToArray(entry.days),
           locationId: entry.locationId,
+          position: { lat: entry.location.latitude, lng: entry.location.longitude },
           locationPostal: entry.location.postal,
           start_time: entry.start_time,
           end_time: entry.end_time,
