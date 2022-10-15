@@ -28,4 +28,16 @@ router.post(
   authMiddleware,
   profileController.createDogProfile
 );
+router.post(
+  '/profile/createAvatar',
+  authMiddleware,
+  profileController.createAvatarProfile
+)
+
+router.get(
+  '/profile/getAvatar',
+  authMiddleware,
+  profileController.retrieveAvatarProfile
+)
+
 export default router;

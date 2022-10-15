@@ -165,6 +165,63 @@ class ProfileController {
       next(err);
     }
   };
+
+  // Avatar Upload Profile
+  createAvatarProfile = async (req, res, next) => {
+    try {
+      const { filePath } = req.body
+      const { userId } = req.cookies
+      
+      
+      const result = await this.db.User.findOne({
+        where: {id : userId}
+      })
+
+      const avatarUpdated = await result.update(
+        {
+          avatar_url : filePath
+        }
+      )
+
+      res.status(200).json({
+        success: true,
+        data : {
+          filePath
+        }
+      })
+
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
+
+  retrieveAvatarProfile = async(req,res,next) => {
+    try {
+      const { userId } = req.cookies
+      const result = await this.db.User.findOne({
+        where: {id : userId}
+      })
+
+      const result_JSON = result.toJSON()
+      const avatar_url = result_JSON.avatar_url
+      const name = result_JSON.name
+      
+  
+      res.status(200).json({
+        code : '0',
+        success: true,
+        data :{
+          name,
+          avatar_url
+        }
+      })
+
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
 }
 
 export default ProfileController;
