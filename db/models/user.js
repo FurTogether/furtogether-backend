@@ -32,6 +32,10 @@ export default function initUserModel(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      avatar_url:{
+        allowNull: true,
+        type: DataTypes.STRING,
+      }
     },
     { underscored: true, timestamp: true }
   );
