@@ -12,8 +12,7 @@ class RoutineController {
       const { userId } = req.cookies;
       const routineDetails = req.body;
       // Create new routine_user for the routineId
-      console.log({ routineDetails });
-      const newRoutine = await this.db.Routine.create(
+      const newEntry = await this.db.Routine.create(
         {
           userId,
           name: routineDetails.name,
@@ -25,15 +24,49 @@ class RoutineController {
         { returning: true }
       );
       // Create a routineDogs entry for each dog tagged for the routine
-      const newRoutineDogs = await routineDetails.dogs.forEach((dog) => {
+      const newRoutineDogs = await routineDetails.routineDogs.forEach((dog) => {
         this.db.RoutineDog.create(
           {
-            dogId: dog.id,
-            routineId: newRoutine.id,
+            dogId: dog,
+            routineId: newEntry.id,
           },
           { returning: true }
         );
       });
+
+      // Retrieve linked data
+      const entry = await this.db.Routine.findOne({
+        where: {
+          id: newEntry.id,
+        },
+        include: [
+          {
+            model: this.db.RoutineDog,
+            include: this.db.Dog,
+            required: false,
+          },
+          { model: this.db.Location, required: false },
+        ],
+        timeStamp: false,
+      });
+      // Format routine
+      const newRoutine = {
+        id: entry.id,
+        name: entry.name,
+        days: daysToArray(entry.days),
+        locationId: entry.locationId,
+        position: { lat: entry.location.latitude, lng: entry.location.longitude },
+        locationPostal: entry.location.postal,
+        start_time: entry.start_time,
+        end_time: entry.end_time,
+      };
+      const routine_dogs = entry.routine_dogs.map((routineDog) => {
+        return {
+          id: routineDog.dog.id,
+          name: routineDog.dog.dog,
+        };
+      });
+      newRoutine.routineDogs = routine_dogs;
       res.status(200).json({
         success: true,
         data: { newRoutine },
@@ -74,6 +107,7 @@ class RoutineController {
           start_time: entry.start_time,
           end_time: entry.end_time,
         };
+        console.log(entry.routine_dogs);
         const routine_dogs = entry.routine_dogs.map((routineDog) => {
           return {
             id: routineDog.dog.id,
