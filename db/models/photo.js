@@ -27,6 +27,11 @@ export default function initPhotoModel(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      start_time: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        defaultValue: 'UnNeeded but lazy delete'
+      }
     },
     { underscored: true, timestamp: true }
   );
