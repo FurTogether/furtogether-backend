@@ -10,8 +10,8 @@ import initRoutineDogModel from './routineDog.js';
 import initDailyModel from './daily.js';
 import initPhotoModel from './photo.js';
 
-// const env = process.env.NODE_ENV || 'development';
-const env = process.env.NODE_ENV || 'production';
+const env = process.env.NODE_ENV || 'development';
+// const env = process.env.NODE_ENV || 'production';
 const config = allConfig[env];
 
 const db = {};
@@ -42,7 +42,6 @@ let sequelize;
 //   );
 // }
 
-require('dotenv').config();
 if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(
     process.env.DATABASE,
