@@ -26,7 +26,7 @@ export default class WalkController {
         },
       });
       res.status(200).json({ userDaily });
-    } catch (error) {
+    } catch (err) {
       next(err);
     }
   };
