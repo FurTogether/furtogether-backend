@@ -13,7 +13,7 @@ import PhotoAlbumRouter from './routes/photoalbum.routes.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://furtogether-af128.web.app',
   allowedHeaders: [
     'Origin',
     'X-Requested-With',
@@ -21,10 +21,11 @@ const corsOptions = {
     'Accept',
     'X-Access-Token',
     'X-API-Key',
+    'Authorization',
   ],
   credentials: true,
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  preflightContinue: false,
+  // preflightContinue: true,
 };
 
 const envFilePath = '.env';
