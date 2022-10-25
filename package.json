@@ -11,6 +11,7 @@
   "author": "Andrew, Dong Kun, Regina, Richie",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
     "cors": "^2.8.5",
     "eslint": "^8.21.0",
     "eslint-config-airbnb-base": "^15.0.0",

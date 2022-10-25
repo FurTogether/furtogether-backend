@@ -35,6 +35,12 @@ class AuthController {
   };
 
   signIn = async (req, res, next) => {
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    };
+
     try {
       const { email, password } = req.body;
 
@@ -56,9 +62,9 @@ class AuthController {
       if (hashedPasswordInDatabase === hashedPasswordFromLogin) {
         const hashedCookieString = getHashWithSalt(user.id);
 
-        res.cookie('LoggedInHash', hashedCookieString);
-        res.cookie('userId', user.id);
-        res.cookie('isLoggedIn', true);
+        res.cookie('LoggedInHash', hashedCookieString, cookieOptions);
+        res.cookie('userId', user.id, cookieOptions);
+        res.cookie('isLoggedIn', true, cookieOptions);
         res.status(200).json({
           success: true,
           data: { name: user.name },
@@ -79,10 +85,16 @@ class AuthController {
   };
 
   reAuth = async (req, res, next) => {
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    };
+
     try {
       console.log('re-auth ran');
       const { user } = req;
-      if (user) res.cookie('isLoggedIn', true);
+      if (user) res.cookie('isLoggedIn', true, cookieOptions);
       res.status(200).json({
         success: true,
         data: { name: user.name },
@@ -101,10 +113,16 @@ class AuthController {
   };
 
   signOut = async (req, res, next) => {
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    };
+
     try {
-      res.clearCookie('isLoggedIn');
-      res.clearCookie('userId');
-      res.clearCookie('LoggedInHash');
+      res.clearCookie('isLoggedIn', cookieOptions);
+      res.clearCookie('userId', cookieOptions);
+      res.clearCookie('LoggedInHash', cookieOptions);
       res.status(200).json({
         success: true,
         message: 'Logout',
