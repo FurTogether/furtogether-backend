@@ -1,4 +1,5 @@
 import HttpException from '../exceptions/HttpException.js';
+import { Op } from 'sequelize'
 
 class PhotoAlbumController {
   constructor(db){
@@ -58,13 +59,55 @@ class PhotoAlbumController {
     try {
 
       const { userId } = req.cookies
+      const { filter } = req.body
+      console.log(req.body)
 
       const result = await this.db.Photo.findAll({
         attributes : ['dog_id','url', 'updated_at'],
         order: [['updated_at', 'DESC']],
         limit: 30,
         where : {
-          user_id : userId
+          user_id : userId,
+          dog_id : {
+            [Op.or] : filter
+          }
+        },
+      })
+
+      // console.log(result)
+
+      res.status(200).json({
+        code: '0',
+        success: true,
+        data : result
+      })
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  retrieveMultipleImagesFilterTest = async(req,res,next) => {
+    try {
+
+      const { userId } = req.cookies
+      // const { listOfDog } = req.body
+      // const dogId = listOfDog
+      const listOfDog = ["c82e67e0-2cf1-48b9-a38e-e592f3b44c35","ed9fa2c2-89c5-4f15-ab89-bcc7a0986820"]
+      // console.log(listOfDog)
+      // const dogId = listOfDog[0]
+      // console.log(dogId)
+      // const userId = '114a76a0-d623-44ba-af60-c664fda316a5'
+      const dogId = 'c82e67e0-2cf1-48b9-a38e-e592f3b44c35'
+
+      const result = await this.db.Photo.findAll({
+        attributes : ['user_id','dog_id','url', 'updated_at'],
+        order: [['updated_at', 'DESC']],
+        limit: 30,
+        where : {
+          user_id : userId,
+          dog_id : {
+            [Op.or] : listOfDog
+          }
         },
       })
 

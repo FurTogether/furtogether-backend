@@ -11,6 +11,7 @@ router.get('/photoalbum/test', authMiddleware, photoAlbumController.getTestProfi
 
 router.post('/photoalbum/uploadmultiple', authMiddleware, photoAlbumController.uploadMultipleImages)
 router.post('/photoalbum/retrievemultiple', authMiddleware, photoAlbumController.retrieveMultipleImages)
+router.post('/photoalbum/retrievemultiplefilter', authMiddleware, photoAlbumController.retrieveMultipleImagesFilterTest)
 router.get('/photoalbum/retrieveDogs', authMiddleware, photoAlbumController.retrieveAllDogs)
 
 export default router
